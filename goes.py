@@ -1,8 +1,11 @@
 from flask import Flask
-from flask.ext import restful
+import flask_restful as restful
 import os
 
+from flask_cors import CORS
+
 app = Flask(__name__)
+CORS(app)
 api = restful.Api(app)
 
 class HelloWorld(restful.Resource):
