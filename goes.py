@@ -1,5 +1,6 @@
 from flask import Flask
 from flask.ext import restful
+import os
 
 app = Flask(__name__)
 api = restful.Api(app)
