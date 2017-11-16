@@ -1,30 +1,32 @@
+import random
+
 from flask import Flask
 import flask_restful as restful
 import os
 
 from flask_cors import CORS, cross_origin
 
-app = Flask(__name__)
-# cors = CORS(app)
-cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
-app.config['CORS_HEADERS'] = 'Content-Type'
-api = restful.Api(app)
 
+def flask_app_init():
+    app = Flask(__name__)
+    # resources is needed!
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
+    app.config['CORS_HEADERS'] = 'Content-Type'
+    return app
 
-# @app.route("/")
-# @cross_origin()
-# def helloWorld():
-#   return {'hello': 'world'}
 
 class HelloWorld(restful.Resource):
-    # @cross_origin()
     def get(self):
-        return {'hello': 'world'}
+        return {'hello': 'world' + str(random.randint(0, 100))}
 
 
-api.add_resource(HelloWorld, '/')
+def main():
+    app = flask_app_init()
+    api = restful.Api(app)
+    api.add_resource(HelloWorld, '/')
 
-# if __name__ == '__main__':
-#     app.run(debug=True, port=int(os.environ.get('PORT', 5000)))
+    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 7777)))
 
-app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+
+if __name__ == '__main__':
+    main()
