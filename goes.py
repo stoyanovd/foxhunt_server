@@ -5,9 +5,11 @@ import os
 from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
-cors = CORS(app)
+# cors = CORS(app)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 app.config['CORS_HEADERS'] = 'Content-Type'
 api = restful.Api(app)
+
 
 # @app.route("/")
 # @cross_origin()
@@ -15,9 +17,10 @@ api = restful.Api(app)
 #   return {'hello': 'world'}
 
 class HelloWorld(restful.Resource):
-    @cross_origin()
+    # @cross_origin()
     def get(self):
         return {'hello': 'world'}
+
 
 api.add_resource(HelloWorld, '/')
 
